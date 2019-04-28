@@ -114,10 +114,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     func removeDoctorMarker() {
         activeAlert = false;
         mapView.removeAnnotation(docMarker);
+        centerOnLocation(location: mapView.userLocation.coordinate);
     }
     
     // center map between user and doctor locations, show marker on doc location
     func updateDoctorLoc(docLocation: CLLocationCoordinate2D) {
+        let userLocation = mapView.userLocation.coordinate;
+        
         // find distance between user and given doctor location to establish regionRadius
             // (creating CLLocations since CLLocationCoordinate2D doesn't have distance function)
         let distanceBetweenCoordinates = CLLocation(latitude: mapView.userLocation.coordinate.latitude, longitude: mapView.userLocation.coordinate.longitude).distance(from: CLLocation(latitude: docLocation.latitude, longitude: docLocation.longitude));
@@ -126,6 +129,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         // update marker position to given coordinates
         docMarker.coordinate = CLLocationCoordinate2D(latitude: docLocation.latitude, longitude: docLocation.longitude);
+        
+        // recenter map between the two
+        var center = CLLocationCoordinate2D(latitude: userLocation.latitude, longitude: userLocation.longitude);
+        if (userLocation.latitude > docLocation.latitude) {
+            center.latitude += (userLocation.latitude - docLocation.latitude)/2;
+        } else {
+            center.latitude += (docLocation.latitude - userLocation.latitude)/2;
+        }
+        if (userLocation.longitude > docLocation.longitude) {
+            center.longitude += (userLocation.longitude - docLocation.longitude)/2;
+        } else {
+            center.longitude += (docLocation.longitude - userLocation.longitude)/2;
+        }
+        let coordinateRegion = MKCoordinateRegion(center: center, latitudinalMeters: regionRadius, longitudinalMeters: regionRadius);
+        mapView.setRegion(coordinateRegion, animated: true);
         
     }
     
