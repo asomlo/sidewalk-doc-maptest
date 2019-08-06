@@ -1,8 +1,8 @@
 # Sidewalk Doc MapKit test
 
-A test for the MapKit portion of the [Sidewalk Doc](https://github.com/ChallaHalla/sidewalkDocMobileApp) mobile app. Code from this repo has been integrated into the Sidewalk Doc app.
+A test for the MapKit portion of the [Sidewalk Doc](https://github.com/ChallaHalla/sidewalkDocMobileApp) mobile app. Code from this repo has been integrated into multiple ViewControllers of the Sidewalk Doc app.
 
-Demonstrates how to:
+This test demonstrates how to:
 
 - Get Location Services (both in-app and in the background) permission from user.
 
